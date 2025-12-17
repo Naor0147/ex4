@@ -1,3 +1,11 @@
+/******************
+Name:Naor Biton
+ID:329218416
+Assignment:ex4
+*******************/
+
+
+
 #include <stdio.h>
 #include <string.h>
 
@@ -58,6 +66,15 @@ int task5SolveSudokuImplementation(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
 int readTerms(char[][LONGEST_TERM+1], int, char[]);
 void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
+
+
+
+
+
+/******************************
+*********** CUSTOM ************
+*******************************/
+int task2HelpCheck(int length,int index);
 
 
 
@@ -274,14 +291,30 @@ void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 
 
 void task1ReversePhraseImplementation(){
-
+    char s = getchar(); // saves one char at a time
+    if (s!='\n')//if player press enter the task 1 stops
+    {
+        task1ReversePhraseImplementation();
+    }
+    printf("%c",s);//print the char
+    
 }
 
 
 int task2CheckPalindromeImplementation(int length)
 {
+    char s = getchar();
+
+
+
     return 0;
 }
+
+int task2HelpCheck(int length,int index)
+{
+
+}
+
 
 
 void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM+1], int subjectsCount,
