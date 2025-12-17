@@ -4,11 +4,8 @@ ID:329218416
 Assignment:ex4
 *******************/
 
-
-
 #include <stdio.h>
 #include <string.h>
-
 
 /***************************
 ******** Menu Items ********
@@ -20,7 +17,6 @@ Assignment:ex4
 #define ZIP 4
 #define SUDOKU 5
 #define EXIT 6
-
 
 /***************************
 *** DIMENSION PARAMETERS ***
@@ -35,10 +31,9 @@ Assignment:ex4
 #define SUDOKU_GRID_SIZE 9
 #define SUDOKU_SUBGRID_SIZE 3
 
-
 /***************************
-* USER INTEFACE PROTOTYPES *
-****************************/
+ * USER INTEFACE PROTOTYPES *
+ ****************************/
 
 void task1ReversePhrase();
 void task2CheckPalindrome();
@@ -46,37 +41,30 @@ void task3GenerateSentences();
 void task4SolveZipBoard();
 void task5SolveSudoku();
 
-
 /****************************
-* IMPLEMENTATION PROTOTYPES *
-*****************************/
+ * IMPLEMENTATION PROTOTYPES *
+ *****************************/
 
 void task1ReversePhraseImplementation();
 int task2CheckPalindromeImplementation(int);
-void task3GenerateSentencesImplementation(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
-                                            char[][LONGEST_TERM+1], int);
+void task3GenerateSentencesImplementation(char[][LONGEST_TERM + 1], int, char[][LONGEST_TERM + 1], int,
+                                          char[][LONGEST_TERM + 1], int);
 int task4SolveZipBoardImplementation(int[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
-                                        char[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int, int, int, int);
+                                     char[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int, int, int, int);
 int task5SolveSudokuImplementation(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
-
 /******************************
-* HELPER FUNCTIONS PROTOTYPES *
-*******************************/
+ * HELPER FUNCTIONS PROTOTYPES *
+ *******************************/
 
-int readTerms(char[][LONGEST_TERM+1], int, char[]);
+int readTerms(char[][LONGEST_TERM + 1], int, char[]);
 void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
-
-
-
-
 
 /******************************
 *********** CUSTOM ************
 *******************************/
-int task2HelpCheck(int length,int index);
-
-
+int task2HelpCheck(int length, int index);
+void clearBuffer();
 
 /******************************
 ********** MAIN MENU **********
@@ -127,11 +115,9 @@ int main()
     return 0;
 }
 
-
 /***************************
 ****** USER INTERFACE ******
 ****************************/
-
 
 void task1ReversePhrase()
 {
@@ -140,35 +126,32 @@ void task1ReversePhrase()
     printf("\n");
 }
 
-
 void task2CheckPalindrome()
 {
     printf("Please insert the phrase length:\n");
     int n;
     scanf("%d", &n);
     printf("Please insert the phrase to check:\n");
-    scanf(" ");
+    //scanf(" ");
     if (task2CheckPalindromeImplementation(n))
         printf("The phrase is a palindrome.\n");
     else
         printf("The phrase is not a palindrome.\n");
 }
 
-
 void task3GenerateSentences()
 {
-    char subjects[MAX_NUMBER_OF_TERMS][LONGEST_TERM+1];
-    char verbs[MAX_NUMBER_OF_TERMS][LONGEST_TERM+1];
-    char objects[MAX_NUMBER_OF_TERMS][LONGEST_TERM+1];
+    char subjects[MAX_NUMBER_OF_TERMS][LONGEST_TERM + 1];
+    char verbs[MAX_NUMBER_OF_TERMS][LONGEST_TERM + 1];
+    char objects[MAX_NUMBER_OF_TERMS][LONGEST_TERM + 1];
     int subjectsCount, verbsCount, objectsCount;
 
-    subjectsCount=readTerms(subjects, MAX_NUMBER_OF_TERMS, "subjects");
-    verbsCount=readTerms(verbs, MAX_NUMBER_OF_TERMS, "verbs");
-    objectsCount=readTerms(objects, MAX_NUMBER_OF_TERMS, "objects");
+    subjectsCount = readTerms(subjects, MAX_NUMBER_OF_TERMS, "subjects");
+    verbsCount = readTerms(verbs, MAX_NUMBER_OF_TERMS, "verbs");
+    objectsCount = readTerms(objects, MAX_NUMBER_OF_TERMS, "objects");
     printf("List of Sentences:\n");
     task3GenerateSentencesImplementation(subjects, subjectsCount, verbs, verbsCount, objects, objectsCount);
 }
-
 
 void task4SolveZipBoard()
 {
@@ -176,7 +159,7 @@ void task4SolveZipBoard()
     int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE] = {0};
     char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE] = {0};
     int row, col;
-    int highest=0;
+    int highest = 0;
     printf("Please enter the board size:\n");
     scanf("%d", &size);
     if (size < 1 || size > ZIP_MAX_GRID_SIZE)
@@ -196,8 +179,9 @@ void task4SolveZipBoard()
                 row = i;
                 col = j;
             }
-            if(board[i][j]>highest){
-                highest=board[i][j];
+            if (board[i][j] > highest)
+            {
+                highest = board[i][j];
             }
         }
     }
@@ -218,7 +202,6 @@ void task4SolveZipBoard()
         printf("No solution exists.\n");
     }
 }
-
 
 void task5SolveSudoku()
 {
@@ -242,27 +225,27 @@ void task5SolveSudoku()
     }
 }
 
-
 /***************************
 ********* HELPERS **********
 ****************************/
 
-
-int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, char type[]){
+int readTerms(char terms[][LONGEST_TERM + 1], int maxNumOfTerms, char type[])
+{
     int termsCount;
     printf("Please insert number of %s:\n", type);
     scanf("%d", &termsCount);
-    if(termsCount < 1 || termsCount > maxNumOfTerms){
+    if (termsCount < 1 || termsCount > maxNumOfTerms)
+    {
         termsCount = maxNumOfTerms;
     }
     printf("Please insert the list of %s:\n", type);
-    for(int i=0;i<termsCount;i++){
-        printf("%d. ",i+1);
-        scanf(" %[^\n]",terms[i]);
+    for (int i = 0; i < termsCount; i++)
+    {
+        printf("%d. ", i + 1);
+        scanf(" %[^\n]", terms[i]);
     }
     return termsCount;
 }
-
 
 void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 {
@@ -289,50 +272,79 @@ void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 *********** TODO ***********
 ****************************/
 
-
-void task1ReversePhraseImplementation(){
+void task1ReversePhraseImplementation()
+{
     char s = getchar(); // saves one char at a time
-    if (s!='\n')//if player press enter the task 1 stops
+    if (s != '\n')      // if player press enter the task 1 stops
     {
         task1ReversePhraseImplementation();
     }
-    printf("%c",s);//print the char
-    
+    printf("%c", s); // print the char
 }
-
 
 int task2CheckPalindromeImplementation(int length)
 {
-    char s = getchar();
-
-
-
-    return 0;
+    clearBuffer();//clear the buffer
+    return task2HelpCheck(length, 1);
 }
 
-int task2HelpCheck(int length,int index)
+int task2HelpCheck(int length, int index)
 {
+    int remainder = length%2;
 
+
+    char s = getchar();
+    if (index < ((length / 2 )+remainder))
+    {
+
+        if (task2HelpCheck(length, index + 1) == 0)
+        {
+            return 0;
+        }
+    }
+
+    if (remainder==1 && index==((length/2)+1) )
+    {
+        return 1;
+    }
+
+    
+    char g = getchar();
+
+    return g == s;
 }
 
-
-
-void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM+1], int subjectsCount,
-                                            char verbs[][LONGEST_TERM+1], int verbsCount,
-                                            char objects[][LONGEST_TERM+1], int objectsCount){
-
+void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM + 1], int subjectsCount,
+                                          char verbs[][LONGEST_TERM + 1], int verbsCount,
+                                          char objects[][LONGEST_TERM + 1], int objectsCount)
+{
 }
-
 
 int task4SolveZipBoardImplementation(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
-                                    char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
-                                    int size, int startR, int startC, int highest)
+                                     char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                                     int size, int startR, int startC, int highest)
 {
     return 0;
 }
-
 
 int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 {
     return 0;
+}
+
+
+
+/// custom 
+
+void clearBuffer()
+{
+    char s = getchar();
+    if (s=='\n')
+    {
+        return ;
+    }
+    clearBuffer();
+    
+
+
 }
