@@ -66,6 +66,19 @@ void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 int task2HelpCheck(int length, int index);
 void clearBuffer();
 
+// task3 helpers
+void task3GenerateSentencesHelperSubject(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                         char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                         char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex);
+
+void task3GenerateSentencesHelperVerb(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                      char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                      char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex);
+
+void task3GenerateSentencesHelperObject(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                        char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                        char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex);
+
 /******************************
 ********** MAIN MENU **********
 *******************************/
@@ -132,7 +145,7 @@ void task2CheckPalindrome()
     int n;
     scanf("%d", &n);
     printf("Please insert the phrase to check:\n");
-    //scanf(" ");
+    // scanf(" ");
     if (task2CheckPalindromeImplementation(n))
         printf("The phrase is a palindrome.\n");
     else
@@ -284,31 +297,33 @@ void task1ReversePhraseImplementation()
 
 int task2CheckPalindromeImplementation(int length)
 {
-    clearBuffer();//clear the buffer
+    clearBuffer(); // clear the buffer
     return task2HelpCheck(length, 1);
 }
 
 int task2HelpCheck(int length, int index)
 {
-    int remainder = length%2;
+    int remainder = length % 2; // checks if the number is even
 
+    char s = getchar(); // get char
 
-    char s = getchar();
-    if (index < ((length / 2 )+remainder))
+    /* the recuisve call get called only if the index
+    doesnt crrose the middle*/
+    if (index < ((length / 2) + remainder))
     {
-
+        // if even of the recuisve call equal zero the program will return zero
         if (task2HelpCheck(length, index + 1) == 0)
         {
             return 0;
         }
     }
 
-    if (remainder==1 && index==((length/2)+1) )
+    // if the number odd
+    if (remainder == 1 && index == ((length / 2) + 1))
     {
         return 1;
     }
 
-    
     char g = getchar();
 
     return g == s;
@@ -318,6 +333,71 @@ void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM + 1], int
                                           char verbs[][LONGEST_TERM + 1], int verbsCount,
                                           char objects[][LONGEST_TERM + 1], int objectsCount)
 {
+    task3GenerateSentencesHelperSubject(subjects, subjectsCount, 0,
+                                        verbs, verbsCount, 0,
+                                        objects, objectsCount, 0);
+}
+
+// recursive function for subjects acts as the main loop
+void task3GenerateSentencesHelperSubject(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                         char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                         char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex)
+{
+    if (subjectIndex >= subjectsCount || vebvIndex >= verbsCount || objectIndex >= objectsCount)
+    {
+        return;
+    }
+    int numberOfSentence = 1 + ((subjectIndex) * (verbsCount) * (objectsCount));
+
+
+    task3GenerateSentencesHelperVerb(subjects, subjectsCount, subjectIndex,
+                                     verbs, verbsCount, 0,
+                                     objects, objectsCount, 0);
+    task3GenerateSentencesHelperSubject(subjects, subjectsCount, subjectIndex + 1,
+                                        verbs, verbsCount, 0,
+                                        objects, objectsCount, 0);
+}
+
+// recursive function for verbs acts as the second loop
+void task3GenerateSentencesHelperVerb(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                      char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                      char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex)
+{
+    if (subjectIndex >= subjectsCount || vebvIndex >= verbsCount || objectIndex >= objectsCount)
+    {
+        return;
+    }
+
+    //print the number of the setntence
+
+    int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + 1;
+    printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
+
+    task3GenerateSentencesHelperObject(subjects, subjectsCount, subjectIndex,
+                                       verbs, verbsCount, vebvIndex,
+                                       objects, objectsCount, objectIndex + 1);
+    task3GenerateSentencesHelperVerb(subjects, subjectsCount, subjectIndex,
+                                     verbs, verbsCount, vebvIndex + 1,
+                                     objects, objectsCount, 0);
+}
+
+// recursive function for objects acts as the last loop
+void task3GenerateSentencesHelperObject(char subjects[][LONGEST_TERM + 1], int subjectsCount, int subjectIndex,
+                                        char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
+                                        char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex)
+{
+    if (subjectIndex >= subjectsCount || vebvIndex >= verbsCount || objectIndex >= objectsCount)
+    {
+        return;
+    }
+
+    //print the number of the setntence
+    int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + objectIndex + 1;
+    printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
+
+    task3GenerateSentencesHelperObject(subjects, subjectsCount, subjectIndex,
+                                       verbs, verbsCount, vebvIndex,
+                                       objects, objectsCount, objectIndex + 1);
 }
 
 int task4SolveZipBoardImplementation(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
@@ -332,19 +412,14 @@ int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]
     return 0;
 }
 
-
-
-/// custom 
+/// custom
 
 void clearBuffer()
 {
     char s = getchar();
-    if (s=='\n')
+    if (s == '\n')
     {
-        return ;
+        return;
     }
     clearBuffer();
-    
-
-
 }
