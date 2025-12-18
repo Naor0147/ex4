@@ -31,6 +31,16 @@ Assignment:ex4
 #define SUDOKU_GRID_SIZE 9
 #define SUDOKU_SUBGRID_SIZE 3
 
+
+
+
+/******************************
+******* CUSTOM DEFINE*********
+*******************************/
+
+#define SUDOKU_MAX_NUMBER 9
+
+
 /***************************
  * USER INTEFACE PROTOTYPES *
  ****************************/
@@ -524,6 +534,7 @@ int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]
 {
 
 
+
     return 0;
 }
 
@@ -534,6 +545,129 @@ int task5SolveSudokuHelper(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int pos
 
 
 }
+
+int task5CheckIfvalueIsValid(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int posR,int posC,int value){
+    //not valid value
+    if (value>SUDOKU_MAX_NUMBER){
+        return 0;
+    }
+
+    //in bounderis
+    if (posR>=SUDOKU_GRID_SIZE||posC>=SUDOKU_GRID_SIZE)
+    {
+        return 0;
+    }
+    
+
+    //not valid position
+    if (board[posR][posC]!=0)
+    {
+        return 0;
+    }
+
+    //check if is the value in row 
+    int notInRow=task5IsNumberinRow(board,posR,0,value,SUDOKU_GRID_SIZE);
+    int notInColumn = task5IsNumberinColumn(board,0,posC,value);
+    int notInSquare= task5isNumberInSqure(board,posR,posC,value);
+    
+    return notInRow==notInSquare==notInColumn==1;
+
+}
+
+
+int task5IsNumberinRow(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int posR,int posC,int value,int boarder)
+{
+    //invaild input can't accpet
+    if (posR>=SUDOKU_GRID_SIZE)
+    {
+        return 0;
+    }
+    
+
+    //checked all row and the value is'nt in it
+    if (posC>=boarder)
+    {
+        return 1;
+    }
+
+    int currentBoardValue=board[posR][posC];
+
+    // value is in the row
+    if (currentBoardValue==value)
+    {
+        return 0;
+    }
+    
+    return task5IsNumberinRow(board,posR,posC+1,value,boarder);
+}
+
+int task5IsNumberinColumn(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int posR,int posC,int value)
+{
+    //invaild input can't accpet
+    if (posC>=SUDOKU_GRID_SIZE)
+    {
+        return 0;
+    }
+    
+
+    //checked all row and the value is'nt in it
+    if (posR>=SUDOKU_GRID_SIZE)
+    {
+        return 1;
+    }
+
+    int currentBoardValue=board[posR][posC];
+
+    // value is in the row
+    if (currentBoardValue==value)
+    {
+        return 0;
+    }
+    
+    return task5IsNumberinColumn(board,posR+1,posC,value);
+}
+
+int task5isNumberInSqure(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int posR,int posC,int value)
+{
+    /*what square are we looking at 9*9 example
+     0,0 | 0,1 | 0,2
+     1,0 | 1,1 | 1,2
+     2,0 | 2,1 | 2,2
+    */
+    int squareRow= posR%SUDOKU_SUBGRID_SIZE;
+    int squareColumn= posC%SUDOKU_SUBGRID_SIZE;
+
+    // boundires 
+    int firstColumnTocheck=squareColumn*SUDOKU_SUBGRID_SIZE;
+    int columnNotToCross= firstColumnTocheck+SUDOKU_SUBGRID_SIZE;
+
+    int firstRowTocheck=squareRow*SUDOKU_SUBGRID_SIZE;
+    int RowNotToCross= firstRowTocheck+SUDOKU_SUBGRID_SIZE;
+
+    return task5isNumberInSquareHelper(board,firstRowTocheck,RowNotToCross,firstColumnTocheck,columnNotToCross,value);
+
+}
+
+
+int task5isNumberInSquareHelper(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int posR,int RowNotToCross ,int firstColumnTocheck,int columnNotToCross,int value)
+{   
+    //means the value isnt in squre 
+    if (posR==RowNotToCross)
+    {
+        return 1;
+    }
+    //if true value is in the squre
+    if (task5IsNumberinRow(board,posR,firstColumnTocheck,value,columnNotToCross)==0)
+    {
+        return 0;
+    }
+    
+    return task5isNumberInSquareHelper(board,posR+1,RowNotToCross,firstColumnTocheck,columnNotToCross,value);
+
+
+}
+
+
 
 
 
