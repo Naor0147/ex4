@@ -541,9 +541,7 @@ int task4SolveZipBoardHelper(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
 int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 {
 
-    return task5SudokuHelperCheckAllValues(board, 0, 0, 1);
-
-    return 0;
+    return task5SudokuHelperCheckAllValues(board, 0, 0, SUDOKU_MIN_NUMBER);
 }
 
 int task5SudokuHelperCheckAllValues(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int posR, int posC, int value)
@@ -554,40 +552,44 @@ int task5SudokuHelperCheckAllValues(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE
         return 0;
     }
 
+    // is there a value here
     if (board[posR][posC] != 0)
     {
         return task5GoToNextMiniSquare(board, posR, posC);
     }
 
-    if (value >= SUDOKU_MAX_NUMBER + 1)
+    // is the value larger than the max
+    if (value > SUDOKU_MAX_NUMBER)
     {
         return 0;
     }
+
+    // is the option valid
     int isValid = task5CheckIfvalueIsValid(board, posR, posC, value);
 
     // is a valide number , or if the square have a number in all ready
     if (isValid)
     {
-        if (isValid)
-        {
-            board[posR][posC] = value;
-        }
-        printSudoku(board);
+        // changes the board backtrack
+        board[posR][posC] = value;
 
+        // check if next moves are valid
         int moveValid = task5GoToNextMiniSquare(board, posR, posC);
         if (moveValid)
         {
-            return 1;
+            return 1; // valid move
         }
         else
         {
-            board[posR][posC] = 0;
-
+            // bad move
+            board[posR][posC] = 0; //
+            // tries the next value
             return task5SudokuHelperCheckAllValues(board, posR, posC, value + 1);
         }
     }
     else
     {
+        // tries the next value
         return task5SudokuHelperCheckAllValues(board, posR, posC, value + 1);
     }
 
@@ -599,7 +601,7 @@ int task5SudokuHelperCheckAllValues(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE
 
 int task5GoToNextMiniSquare(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int posR, int posC)
 {
-
+    // check what next square to go to
     int nextR = posR;
     int nextC = posC + 1;
     if (nextC >= SUDOKU_GRID_SIZE)
@@ -609,6 +611,7 @@ int task5GoToNextMiniSquare(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int p
     }
     if (nextR >= SUDOKU_GRID_SIZE)
     {
+
         return 1; // win conedtion
     }
     return task5SudokuHelperCheckAllValues(board, nextR, nextC, SUDOKU_MIN_NUMBER);
@@ -636,9 +639,12 @@ int task5CheckIfvalueIsValid(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int 
 
     // check if is the value in row
     int notInRow = task5IsNumberinRow(board, posR, 0, value, SUDOKU_GRID_SIZE);
+    // check if is the value in column
     int notInColumn = task5IsNumberinColumn(board, 0, posC, value);
+    // check if is the value in square
     int notInSquare = task5isNumberInSqure(board, posR, posC, value);
 
+    // if the value isnt in row column and square
     return notInRow == 1 && notInSquare == 1 && notInColumn == 1;
 }
 
@@ -705,7 +711,6 @@ int task5isNumberInSqure(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], int posR
     // boundires
     int firstColumnTocheck = squareColumn * SUDOKU_SUBGRID_SIZE;
     int columnNotToCross = firstColumnTocheck + SUDOKU_SUBGRID_SIZE;
-
     int firstRowTocheck = squareRow * SUDOKU_SUBGRID_SIZE;
     int RowNotToCross = firstRowTocheck + SUDOKU_SUBGRID_SIZE;
 
