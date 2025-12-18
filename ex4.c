@@ -79,6 +79,11 @@ void task3GenerateSentencesHelperObject(char subjects[][LONGEST_TERM + 1], int s
                                         char verbs[][LONGEST_TERM + 1], int verbsCount, int vebvIndex,
                                         char objects[][LONGEST_TERM + 1], int objectsCount, int objectIndex);
 
+// task 4 helpers
+
+int task4SolveZipBoardHelper(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                             char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                             int size, int currentTurn, int target, int posR, int posC, int highest);
 /******************************
 ********** MAIN MENU **********
 *******************************/
@@ -349,7 +354,6 @@ void task3GenerateSentencesHelperSubject(char subjects[][LONGEST_TERM + 1], int 
     }
     int numberOfSentence = 1 + ((subjectIndex) * (verbsCount) * (objectsCount));
 
-
     task3GenerateSentencesHelperVerb(subjects, subjectsCount, subjectIndex,
                                      verbs, verbsCount, 0,
                                      objects, objectsCount, 0);
@@ -368,7 +372,7 @@ void task3GenerateSentencesHelperVerb(char subjects[][LONGEST_TERM + 1], int sub
         return;
     }
 
-    //print the number of the setntence
+    // print the number of the setntence
 
     int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + 1;
     printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
@@ -391,7 +395,7 @@ void task3GenerateSentencesHelperObject(char subjects[][LONGEST_TERM + 1], int s
         return;
     }
 
-    //print the number of the setntence
+    // print the number of the setntence
     int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + objectIndex + 1;
     printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
 
@@ -404,13 +408,134 @@ int task4SolveZipBoardImplementation(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_S
                                      char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
                                      int size, int startR, int startC, int highest)
 {
+    /*in adddtion to the stats i get from the main fuction i send the turn ,
+     and the number of the next target 2
+    */
+    return task4SolveZipBoardHelper(board, solution, size, 1, 2, startR, startC, highest);
+}
+
+int task4SolveZipBoardHelper(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                             char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                             int size, int currentTurn, int target, int posR, int posC, int highest)
+{
+    // check boand
+    if (posR >= size || posC >= size || posC < 0 || posR < 0)
+    {
+        return 0;
+    }
+    // check if there was check here
+    if (solution[posR][posC] != 0)
+    {
+        return 0;
+    }
+    int currentSquareValue = board[posR][posC]; // the square we are at for easiser use
+
+    // check if the current square value is higher than the target
+    if (currentSquareValue > target)
+    {
+        return 0;
+    }
+    // if it is equal increase the target
+    if (currentSquareValue == target)
+    {
+        target++;
+    }
+
+    // check if this is the last turn
+    if (currentTurn == (size * size))
+    {
+        // check if we reached the highest value and the target is highest +1
+        if (currentSquareValue == highest && (target - 1) == highest)
+        {
+            return 1; // we found a solution
+        }
+        return 0; // not a solution
+    }
+
+    // keep the og value to backtrack later
+    char ogValue = solution[posR][posC];
+
+    // go up
+    solution[posR][posC] = 'U';
+    int tempValue = task4SolveZipBoardHelper(
+        board,
+        solution,
+        size, currentTurn + 1, target, posR - 1, posC, highest);
+    if (tempValue)
+    {
+        return 1; // we found a solution
+    }
+    else
+    {
+        // backtrack
+        solution[posR][posC] = ogValue;
+    }
+
+    // go down
+    solution[posR][posC] = 'D';
+    tempValue = task4SolveZipBoardHelper(
+        board,
+        solution,
+        size, currentTurn + 1, target, posR + 1, posC, highest);
+    if (tempValue)
+    {
+        return 1;// we found a solution
+    }
+    else
+    {
+        // backtrack
+        solution[posR][posC] = ogValue;
+    }
+
+    // go left
+    solution[posR][posC] = 'L';
+    tempValue = task4SolveZipBoardHelper(
+        board,
+        solution,
+        size, currentTurn + 1, target, posR, posC - 1, highest);
+    if (tempValue)
+    {
+        return 1;// we found a solution
+    }
+    else
+    {
+        // backtrack
+        solution[posR][posC] = ogValue;
+    }
+    // go right
+    solution[posR][posC] = 'R';
+    tempValue = task4SolveZipBoardHelper(
+        board,
+        solution,
+        size, currentTurn + 1, target, posR, posC + 1, highest);
+    if (tempValue)
+    {
+        return 1;// we found a solution
+    }
+    else
+    {
+        // backtrack
+        solution[posR][posC] = ogValue;
+    }
     return 0;
 }
 
 int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 {
+
+
     return 0;
 }
+
+
+int task5SolveSudokuHelper(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE],int posR,int posC)
+{
+
+
+
+}
+
+
 
 /// custom
 
