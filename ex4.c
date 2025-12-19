@@ -70,6 +70,13 @@ void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 /******************************
 *********** CUSTOM ************
 *******************************/
+// task1 helpers
+void task1ReversePhraseHelper();
+
+
+
+
+// task2 helpers
 int task2HelpCheck(int length, int index);
 void clearBuffer();
 
@@ -168,7 +175,7 @@ void task2CheckPalindrome()
     int n;
     scanf("%d", &n);
     printf("Please insert the phrase to check:\n");
-    // scanf(" ");
+    scanf(" ");
     if (task2CheckPalindromeImplementation(n))
         printf("The phrase is a palindrome.\n");
     else
@@ -308,33 +315,48 @@ void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE])
 *********** TODO ***********
 ****************************/
 
+
 void task1ReversePhraseImplementation()
+{
+    printf("The reversed phrase is:");
+    task1ReversePhraseHelper();
+}
+
+void task1ReversePhraseHelper()
 {
     char s = getchar(); // saves one char at a time
     if (s != '\n')      // if player press enter the task 1 stops
     {
-        task1ReversePhraseImplementation();
+        task1ReversePhraseHelper();
     }
     printf("%c", s); // print the char
 }
 
+
+
 int task2CheckPalindromeImplementation(int length)
 {
-    clearBuffer(); // clear the buffer
-    return task2HelpCheck(length, 1);
+
+    int result = task2HelpCheck(length, 1);
+
+    clearBuffer();
+
+    return result;
 }
+
+
 
 int task2HelpCheck(int length, int index)
 {
-    int remainder = length % 2; // checks if the number is even
+    int remainder = length % 2; // checks if the length is even
 
-    char s = getchar(); // get char
+    char firstChar = getchar(); // get char
 
-    /* the recuisve call get called only if the index
-    doesnt crrose the middle*/
+    /* the recursive call get called only if the index
+    doesn't cross the middle*/
     if (index < ((length / 2) + remainder))
     {
-        // if even of the recuisve call equal zero the program will return zero
+        // if even of the recursive call equal zero the program will return zero
         if (task2HelpCheck(length, index + 1) == 0)
         {
             return 0;
@@ -347,9 +369,9 @@ int task2HelpCheck(int length, int index)
         return 1;
     }
 
-    char g = getchar();
+    char lastChar = getchar();
 
-    return g == s;
+    return lastChar == firstChar;
 }
 
 void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM + 1], int subjectsCount,
@@ -392,7 +414,7 @@ void task3GenerateSentencesHelperVerb(char subjects[][LONGEST_TERM + 1], int sub
     // print the number of the setntence
 
     int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + 1;
-    printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
+    printf("%d. %s %s %s\n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
 
     task3GenerateSentencesHelperObject(subjects, subjectsCount, subjectIndex,
                                        verbs, verbsCount, vebvIndex,
@@ -414,7 +436,7 @@ void task3GenerateSentencesHelperObject(char subjects[][LONGEST_TERM + 1], int s
 
     // print the number of the setntence
     int numberOfSentence = ((subjectIndex) * (verbsCount) * (objectsCount)) + vebvIndex * objectsCount + objectIndex + 1;
-    printf("%d. %s %s %s \n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
+    printf("%d. %s %s %s\n", numberOfSentence, subjects[subjectIndex], verbs[vebvIndex], objects[objectIndex]);
 
     task3GenerateSentencesHelperObject(subjects, subjectsCount, subjectIndex,
                                        verbs, verbsCount, vebvIndex,
@@ -736,10 +758,11 @@ int task5isNumberInSquareHelper(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE], i
 
 /// custom
 
+/// clear buffer function
 void clearBuffer()
 {
     char s = getchar();
-    if (s == '\n')
+    if (s == '\n' || s == EOF)
     {
         return;
     }

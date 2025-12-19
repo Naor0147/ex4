@@ -1,0 +1,55 @@
+Please choose a task (1-5) or 6 to exit:
+1. Reverse a phrase
+2. Check Palindrome
+3. Generate sentences
+4. Solve Zip Board
+5. Solve Sudoku
+6. Exit
+Please insert number of subjects:
+Please insert the list of subjects:
+1. 2. 3. Please insert number of verbs:
+Please insert the list of verbs:
+1. 2. 3. Please insert number of objects:
+Please insert the list of objects:
+1. 2. 3. List of Sentences:
+1. The program executes the code 
+2. The program executes the naor 
+3. The program executes the biaf 
+4. The program debugs the code 
+5. The program debugs the naor 
+6. The program debugs the biaf 
+7. The program check the code 
+8. The program check the naor 
+9. The program check the biaf 
+10. The compiler executes the code 
+11. The compiler executes the naor 
+12. The compiler executes the biaf 
+13. The compiler debugs the code 
+14. The compiler debugs the naor 
+15. The compiler debugs the biaf 
+16. The compiler check the code 
+17. The compiler check the naor 
+18. The compiler check the biaf 
+19. The student executes the code 
+20. The student executes the naor 
+21. The student executes the biaf 
+22. The student debugs the code 
+23. The student debugs the naor 
+24. The student debugs the biaf 
+25. The student check the code 
+26. The student check the naor 
+27. The student check the biaf 
+
+=============================
+
+Please choose a task (1-5) or 6 to exit:
+1. Reverse a phrase
+2. Check Palindrome
+3. Generate sentences
+4. Solve Zip Board
+5. Solve Sudoku
+6. Exit
+Goodbye!
+
+=============================
+
